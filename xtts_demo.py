@@ -10,6 +10,7 @@ import glob
 import gradio as gr
 import librosa.display
 import numpy as np
+import whisper
 
 import torch
 import torchaudio
@@ -17,7 +18,7 @@ import traceback
 from utils.formatter import format_audio_list,find_latest_best_model, list_audios
 from utils.gpt_train import train_gpt
 
-from whisper import WhisperModel
+#from whisper import WhisperModel
 
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
@@ -310,7 +311,7 @@ if __name__ == "__main__":
                         else:
                             compute_type = "float32"
                         
-                        asr_model = WhisperModel(whisper_model, device=device, compute_type=compute_type)
+                        asr_model = whisper(whisper_model, device=device, compute_type=compute_type)
                         train_meta, eval_meta, audio_total_size = format_audio_list(audio_files, asr_model=asr_model, target_language=language, out_path=out_path, gradio_progress=progress)
                     except:
                         traceback.print_exc()
