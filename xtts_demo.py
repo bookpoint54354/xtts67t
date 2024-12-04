@@ -165,9 +165,9 @@ if __name__ == "__main__":
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
-        "--whisper_model",
+        "--whisper",
         type=str,
-        help="Name of the whisper model selected by default (Optional) Choices are: ['large-v3','large-v2', 'large', 'medium', 'small']   Default Value: 'large-v3'",
+        help="Name of the whisper selected by default (Optional) Choices are: ['large-v3','large-v2', 'large', 'medium', 'small']   Default Value: 'large-v3'",
         default="large-v3",
     )
     parser.add_argument(
@@ -243,9 +243,9 @@ if __name__ == "__main__":
                 value=args.audio_folder_path,
             )
 
-            whisper_model = gr.Dropdown(
-                label="Whisper Model",
-                value=args.whisper_model,
+            whisper = gr.Dropdown(
+                label="whisper",
+                value=args.whisper,
                 choices=[
                     "large-v3",
                     "large-v2",
@@ -284,7 +284,7 @@ if __name__ == "__main__":
 
             prompt_compute_btn = gr.Button(value="Step 1 - Create dataset")
         
-            def preprocess_dataset(audio_path, audio_folder_path, language, whisper_model, out_path, train_csv, eval_csv, progress=gr.Progress(track_tqdm=True)):
+            def preprocess_dataset(audio_path, audio_folder_path, language, whisper, out_path, train_csv, eval_csv, progress=gr.Progress(track_tqdm=True)):
                 clear_gpu_cache()
             
                 train_csv = ""
@@ -311,7 +311,7 @@ if __name__ == "__main__":
                         else:
                             compute_type = "float32"
                         
-                        asr_model = whisper(whisper_model, device=device, compute_type=compute_type)
+                        asr_model = whisper(whisper, device=device, compute_type=compute_type)
                         train_meta, eval_meta, audio_total_size = format_audio_list(audio_files, asr_model=asr_model, target_language=language, out_path=out_path, gradio_progress=progress)
                     except:
                         traceback.print_exc()
@@ -657,7 +657,7 @@ if __name__ == "__main__":
                     upload_file,
                     audio_folder_path,
                     lang,
-                    whisper_model,
+                    whisper,
                     out_path,
                     train_csv,
                     eval_csv
