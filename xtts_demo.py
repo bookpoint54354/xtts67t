@@ -17,7 +17,7 @@ import traceback
 from utils.formatter import format_audio_list,find_latest_best_model, list_audios
 from utils.gpt_train import train_gpt
 
-from faster_whisper import WhisperModel
+from whisper import WhisperModel
 
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
